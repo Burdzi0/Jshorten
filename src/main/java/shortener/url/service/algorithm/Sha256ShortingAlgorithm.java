@@ -1,4 +1,4 @@
-package shortener.url.service.url;
+package shortener.url.service.algorithm;
 
 import shortener.url.model.Url;
 
@@ -6,10 +6,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Sha256UrlFactory extends UrlAbstractFactory {
+public class Sha256ShortingAlgorithm implements ShortingAlgorithm {
 
 	@Override
-	public String calculateHash(Url url) {
+	public String shortenUrl(Url url) {
 		if (url.getHash() != null)
 			throw new IllegalStateException("Hash is not null!");
 		MessageDigest md = null;
@@ -30,5 +30,4 @@ public class Sha256UrlFactory extends UrlAbstractFactory {
 		System.out.println(sb.toString());
 		return sb.toString().substring(0,6);
 	}
-
 }

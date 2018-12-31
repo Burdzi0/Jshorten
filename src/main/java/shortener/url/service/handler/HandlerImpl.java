@@ -2,6 +2,7 @@ package shortener.url.service.handler;
 
 import shortener.url.model.Url;
 
+import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,5 +33,21 @@ public class HandlerImpl implements Handler {
 	@Override
 	public Collection<Url> getAllUrls() {
 		return remembered.values();
+	}
+
+	@Override
+	public int deleteExpired() {
+		var expired = 0;
+
+		var entrySet = remembered.entrySet();
+		OffsetDateTime timestamp;
+		for (Map.Entry<String, Url> entry: entrySet) {
+			timestamp = entry.getValue().getExpirationTime();
+			if (OffsetDateTime.now().isAfter(timestamp)) {
+				remembered.remove(entry.getKey(), entry.getValue());
+				expired++;
+			}
+		}
+		return expired;
 	}
 }

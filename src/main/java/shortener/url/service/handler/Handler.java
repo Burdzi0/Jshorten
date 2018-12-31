@@ -9,4 +9,5 @@ public interface Handler {
 	boolean rememberUrl(Url url);
 	Optional<Url> find(String params);
 	Collection<Url> getAllUrls();
+	int deleteExpired();
 }

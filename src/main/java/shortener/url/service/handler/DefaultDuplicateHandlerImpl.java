@@ -2,7 +2,8 @@ package shortener.url.service.handler;
 
 import shortener.url.model.Url;
 
-public class DefaultHandlerImpl implements DuplicateHandler {
+public class DefaultDuplicateHandlerImpl implements DuplicateHandler {
+
 	@Override
 	public Url duplicate(Url url) {
 		var hash = url.getHash();
