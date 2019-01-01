@@ -1,11 +1,9 @@
-package shortener.url.service.repository;
+package shortener.url.repository;
 
 import shortener.url.model.Url;
-import shortener.url.service.handler.DuplicateHandler;
-import shortener.url.service.repository.UrlRepository;
+import shortener.url.handler.DuplicateHandler;
 
 import java.time.OffsetDateTime;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

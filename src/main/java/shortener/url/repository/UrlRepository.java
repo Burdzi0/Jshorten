@@ -1,4 +1,4 @@
-package shortener.url.service.repository;
+package shortener.url.repository;
 
 import shortener.url.model.Url;
 
@@ -9,5 +9,4 @@ public interface UrlRepository {
 	int deleteExpired();
 	Optional<Url> find(String signature);
 	Iterable<Url> findAll();
-
 }

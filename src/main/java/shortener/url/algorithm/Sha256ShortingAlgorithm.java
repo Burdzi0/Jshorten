@@ -1,4 +1,4 @@
-package shortener.url.service.algorithm;
+package shortener.url.algorithm;
 
 import shortener.url.model.Url;
 

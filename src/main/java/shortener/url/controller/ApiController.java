@@ -1,9 +1,9 @@
-package shortener.url.service.controller;
+package shortener.url.controller;
 
 import org.json.JSONObject;
 import shortener.url.model.Url;
-import shortener.url.service.repository.UrlRepository;
-import shortener.url.service.url.UrlFactory;
+import shortener.url.repository.UrlRepository;
+import shortener.url.service.UrlFactory;
 
 import java.time.OffsetDateTime;
 

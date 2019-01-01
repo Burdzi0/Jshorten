@@ -1,4 +1,4 @@
-package shortener.url.service.handler;
+package shortener.url.handler;
 
 import shortener.url.model.Url;
 

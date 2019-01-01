@@ -1,7 +1,7 @@
-package shortener.url.service.url;
+package shortener.url.service;
 
 import shortener.url.model.Url;
-import shortener.url.service.algorithm.ShortingAlgorithm;
+import shortener.url.algorithm.ShortingAlgorithm;
 
 import java.time.OffsetDateTime;
 
