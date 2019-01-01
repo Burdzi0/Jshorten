@@ -26,21 +26,16 @@ public class Server {
 		});
 
 		staticFiles.location(STATIC_FILES_LOCATION);
-		TemplateController controller = new TemplateController();
 
-		UrlRepository handler = new InMemoryUrlRepository(new DefaultDuplicateHandlerImpl());
+
+		UrlRepository urlRepository = new InMemoryUrlRepository(new DefaultDuplicateHandlerImpl());
 		UrlFactory factory = new UrlFactory(new Sha256ShortingAlgorithm());
-		handler.addUrl(factory.createUrl("http://www.google.pl", OffsetDateTime.MAX));
+		urlRepository.addUrl(factory.createUrl("http://www.google.pl", OffsetDateTime.MAX));
+
+		TemplateController controller = new TemplateController(urlRepository);
 
 		ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-		executorService.schedule(handler::deleteExpired, 30, TimeUnit.MINUTES);
-
-		internalServerError((request, response) -> {
-			System.out.println(Arrays.toString(request.attributes().toArray()));
-			System.out.println(request.body());
-			System.out.println(response.body());
-			return request.body();
-		});
+		executorService.schedule(urlRepository::deleteExpired, 30, TimeUnit.MINUTES);
 	}
 
 

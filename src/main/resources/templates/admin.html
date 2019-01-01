@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All saved links</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Shortened href</th>
+        <th>Redirect</th>
+        <th>Expiration</th>
+    </tr>
+    <tr th:each="url : ${all}">
+        <td th:text="${url.hash}">HASH</td>
+        <td>
+            <a th:href="@{${url.url}}">
+                <span th:text="${url.url}"></span>
+            </a>
+        </td>
+        <td th:text="${#temporals.format(url.expirationTime, 'dd-MM-yyyy HH:mm:ss')}">Expiration</td>
+    </tr>
+</table>
+</body>
+</html>
