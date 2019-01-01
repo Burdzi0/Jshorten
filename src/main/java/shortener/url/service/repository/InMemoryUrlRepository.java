@@ -1,6 +1,8 @@
-package shortener.url.service.handler;
+package shortener.url.service.repository;
 
 import shortener.url.model.Url;
+import shortener.url.service.handler.DuplicateHandler;
+import shortener.url.service.repository.UrlRepository;
 
 import java.time.OffsetDateTime;
 import java.util.Collection;
@@ -8,21 +10,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class HandlerImpl implements Handler {
+public class InMemoryUrlRepository implements UrlRepository {
 
 	private Map<String, Url> remembered = new HashMap<>();
 	private DuplicateHandler duplicateHandler;
 
-	public HandlerImpl(DuplicateHandler duplicateHandler) {
+	public InMemoryUrlRepository(DuplicateHandler duplicateHandler) {
 		this.duplicateHandler = duplicateHandler;
-	}
-
-	@Override
-	public boolean rememberUrl(Url url) {
-		while (remembered.putIfAbsent(url.getHash(), url) == null) {
-			url = duplicateHandler.duplicate(url);
-		}
-		return true;
 	}
 
 	@Override
@@ -31,8 +25,15 @@ public class HandlerImpl implements Handler {
 	}
 
 	@Override
-	public Collection<Url> getAllUrls() {
+	public Iterable<Url> findAll() {
 		return remembered.values();
+	}
+
+	@Override
+	public void addUrl(Url url) {
+		while (remembered.putIfAbsent(url.getHash(), url) == null) {
+			url = duplicateHandler.duplicate(url);
+		}
 	}
 
 	@Override
