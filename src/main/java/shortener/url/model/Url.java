@@ -2,62 +2,12 @@ package shortener.url.model;
 
 import java.time.OffsetDateTime;
 
-public class Url {
-	
-	private String url;
-	private String hash;
-	private OffsetDateTime expirationTime;
+public interface Url {
+	String getHash();
 
-	public Url(String url, OffsetDateTime expirationTime) {
-		this.url = url;
-		this.expirationTime = expirationTime;
-	}
+	String getUrl();
 
-	public String getUrl() {
-		return url;
-	}
+	OffsetDateTime getExpirationTime();
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public String getHash() {
-		return hash;
-	}
-
-	public void setHash(String hash) {
-		this.hash = hash;
-	}
-
-	public OffsetDateTime getExpirationTime() {
-		return expirationTime;
-	}
-
-	public void setExpirationTime(OffsetDateTime expirationTime) {
-		this.expirationTime = expirationTime;
-	}
-
-	@Override
-	public String toString() {
-		return "Url{" +
-				"url='" + url + '\'' +
-				", hash='" + hash + '\'' +
-				", expirationTime=" + expirationTime +
-				'}';
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) return true;
-		if (object == null || getClass() != object.getClass()) return false;
-
-		Url url = (Url) object;
-
-		return hash.equals(url.hash);
-	}
-
-	@Override
-	public int hashCode() {
-		return hash != null ? hash.hashCode() : 0;
-	}
+	void setHash(String hash);
 }

@@ -4,11 +4,14 @@ import shortener.url.algorithm.Sha256ShortingAlgorithm;
 import shortener.url.controller.ApiController;
 import shortener.url.controller.TemplateController;
 import shortener.url.handler.DefaultDuplicateHandlerImpl;
+import shortener.url.model.UrlPojo;
 import shortener.url.repository.InMemoryUrlRepository;
 import shortener.url.repository.UrlRepository;
 import shortener.url.service.DefaultUrlServiceImpl;
-import shortener.url.service.UrlFactory;
 import shortener.url.service.UrlService;
+import shortener.url.service.factory.DefaultUrlFactory;
+import shortener.url.service.factory.UrlFactory;
+import shortener.url.service.validator.DefaultUrlValidator;
 
 import java.time.OffsetDateTime;
 import java.util.concurrent.Executors;
@@ -16,7 +19,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static spark.Spark.initExceptionHandler;
-import static spark.Spark.staticFiles;
+import static spark.Spark.staticFileLocation;
 
 public class Server {
 
@@ -28,14 +31,14 @@ public class Server {
 			System.exit(1);
 		});
 
-		staticFiles.location(STATIC_FILES_LOCATION);
+		staticFileLocation(STATIC_FILES_LOCATION);
 
-		UrlRepository urlRepository = new InMemoryUrlRepository(new DefaultDuplicateHandlerImpl());
-		UrlFactory factory = new UrlFactory(new Sha256ShortingAlgorithm());
-		UrlService service = new DefaultUrlServiceImpl(urlRepository, factory);
+		UrlRepository<UrlPojo> urlRepository = new InMemoryUrlRepository<>(new DefaultDuplicateHandlerImpl<>());
+		UrlFactory<UrlPojo> factory = new DefaultUrlFactory(new Sha256ShortingAlgorithm());
+		UrlService<UrlPojo> service = new DefaultUrlServiceImpl<>(urlRepository, factory, new DefaultUrlValidator());
 
-		TemplateController templateController = new TemplateController(service);
-		ApiController apiController = new ApiController(service);
+		TemplateController templateController = new TemplateController<>(service);
+		ApiController apiController = new ApiController<>(service);
 
 		service.save(factory.createUrl("http://www.google.pl", OffsetDateTime.MAX));
 

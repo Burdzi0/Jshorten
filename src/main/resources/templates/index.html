@@ -1,34 +1,56 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Url Shortener by Burdzi0</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <title>URL shortener</title>
+
 </head>
 <body>
-<div class="container">
-    <div class="col-sm-10 form-group-lg">
-        <form action="/save" method="post" role="form">
-            <div class="form-group">
-                <label for="url">Your url</label>
-                <input type="text" class="form-control" id="url" name="url">
+
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <img alt="Bootstrap Image Preview" src="/bender.jpg" class="img-fluid center-block">
+                </div>
+                <div class="col-md-3">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="time">Time:</label>
-                <select name="time" id="time">
-                    <option value="1">15 minutes</option>
-                    <option value="2">30 minutes</option>
-                    <option value="3">1 hour</option>
-                    <option value="4">6 hours</option>
-                    <option value="5">1 day</option>
-                    <option value="6">1 week</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-        </form>
+            <form action="/save" method="post" role="form">
+                <div class="form-group">
+                    <label for="url">Your url</label>
+                    <input type="text" class="form-control" id="url" name="url">
+                </div>
+                <div class="form-group">
+                    <label for="time">Time:</label>
+                    <select name="time" id="time" class="form-control">
+                        <option value="1">15 minutes</option>
+                        <option value="2">30 minutes</option>
+                        <option value="3">1 hour</option>
+                        <option value="4">6 hours</option>
+                        <option value="5">1 day</option>
+                        <option value="6">1 week</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn active btn-block btn-md btn-success">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-3">
+        </div>
     </div>
 </div>
 </body>
+</html>

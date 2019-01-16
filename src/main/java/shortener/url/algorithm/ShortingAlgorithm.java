@@ -1,8 +1,6 @@
 package shortener.url.algorithm;
 
-import shortener.url.model.Url;
-
 @FunctionalInterface
-public interface ShortingAlgorithm {
-	String shortenUrl(Url url);
+public interface ShortingAlgorithm<T> {
+	String shortenUrl(T urlPojo);
 }

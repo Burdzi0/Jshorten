@@ -2,24 +2,32 @@ package shortener.url.service;
 
 import shortener.url.model.Url;
 import shortener.url.repository.UrlRepository;
+import shortener.url.service.factory.UrlFactory;
+import shortener.url.service.validator.UrlValidator;
+import shortener.url.service.validator.ValidationException;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
 
-public class DefaultUrlServiceImpl implements UrlService {
+public class DefaultUrlServiceImpl<T extends Url> implements UrlService<T> {
 
-	private UrlRepository repository;
-	private UrlFactory factory;
+	private UrlRepository<T> repository;
+	private UrlFactory<T> factory;
+	private UrlValidator validator;
 
-	public DefaultUrlServiceImpl(UrlRepository repository, UrlFactory factory) {
+	public DefaultUrlServiceImpl(UrlRepository<T> repository, UrlFactory<T> factory, UrlValidator validator) {
 		this.repository = repository;
 		this.factory = factory;
+		this.validator = validator;
 	}
 
 	@Override
-	public Url createUrl(String url, OffsetDateTime expirationTime) throws BlankUrlException, IllegalTimestampException {
+	public T createUrl(String url, OffsetDateTime expirationTime) throws BlankUrlException, IllegalTimestampException, ValidationException {
 		if (url.isBlank() || url.isEmpty())
 			throw new BlankUrlException();
+
+		if (!validator.validate(url))
+			throw new ValidationException();
 
 		if (expirationTime.isBefore(OffsetDateTime.now()))
 			throw new IllegalTimestampException();
@@ -28,8 +36,8 @@ public class DefaultUrlServiceImpl implements UrlService {
 	}
 
 	@Override
-	public void save(Url url) {
-		repository.addUrl(url);
+	public void save(T urlPojo) {
+		repository.addUrl(urlPojo);
 	}
 
 	@Override
@@ -38,12 +46,12 @@ public class DefaultUrlServiceImpl implements UrlService {
 	}
 
 	@Override
-	public Optional<Url> find(String signature) {
+	public Optional<T> find(String signature) {
 		return repository.find(signature);
 	}
 
 	@Override
-	public Iterable<Url> findAll() {
+	public Iterable<T> findAll() {
 		return repository.findAll();
 	}
 }

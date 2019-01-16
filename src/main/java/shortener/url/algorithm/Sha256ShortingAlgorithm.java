@@ -1,16 +1,16 @@
 package shortener.url.algorithm;
 
-import shortener.url.model.Url;
+import shortener.url.model.UrlPojo;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Sha256ShortingAlgorithm implements ShortingAlgorithm {
+public class Sha256ShortingAlgorithm implements ShortingAlgorithm<UrlPojo> {
 
 	@Override
-	public String shortenUrl(Url url) {
-		if (url.getHash() != null)
+	public String shortenUrl(UrlPojo urlPojo) {
+		if (urlPojo.getHash() != null)
 			throw new IllegalStateException("Hash is not null!");
 		MessageDigest md = null;
 		try {
@@ -18,8 +18,8 @@ public class Sha256ShortingAlgorithm implements ShortingAlgorithm {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		md.update(url.getUrl().getBytes(StandardCharsets.UTF_8));
-		md.update(url.getExpirationTime().toString().getBytes(StandardCharsets.UTF_8));
+		md.update(urlPojo.getUrl().getBytes(StandardCharsets.UTF_8));
+		md.update(urlPojo.getExpirationTime().toString().getBytes(StandardCharsets.UTF_8));
 
 		var hashInBytes = md.digest();
 		// bytes to hex
@@ -27,7 +27,7 @@ public class Sha256ShortingAlgorithm implements ShortingAlgorithm {
 		for (byte b : hashInBytes) {
 			sb.append(String.format("%02x", b));
 		}
-		System.out.println(sb.toString());
+
 		return sb.toString().substring(0,6);
 	}
 }

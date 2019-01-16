@@ -4,18 +4,18 @@ import org.json.JSONObject;
 import shortener.url.model.Url;
 import shortener.url.service.BlankUrlException;
 import shortener.url.service.IllegalTimestampException;
-import shortener.url.service.UrlFactory;
 import shortener.url.service.UrlService;
+import shortener.url.service.validator.ValidationException;
 
 import java.time.OffsetDateTime;
 
 import static spark.Spark.*;
 
-public class ApiController {
+public class ApiController<T extends Url> {
 
-	private final UrlService service;
+	private final UrlService<T> service;
 
-	public ApiController(UrlService service) {
+	public ApiController(UrlService<T> service) {
 		this.service = service;
 		registerAll();
 	}
@@ -30,23 +30,23 @@ public class ApiController {
 	private void saveRedirectPOST() {
 		post("/add", (request, response) -> {
 			JSONObject object = new JSONObject(request.body());
-			Url url;
+			T urlPojo;
 			try {
-				url = service.createUrl(
+				urlPojo = service.createUrl(
 						object.getString("url"),
 						OffsetDateTime.parse(object.getString("expirationTime"))
 				);
-			} catch (BlankUrlException e) {
+			} catch (BlankUrlException | ValidationException e) {
 				response.status(400);
 				return errorJsonMessage("The url should start with http*");
 			} catch (IllegalTimestampException e) {
 				response.status(400);
-				return errorJsonMessage("The specified date is already expired");
+				return errorJsonMessage("The specified date has already expired");
 			}
 
-			service.save(url);
+			service.save(urlPojo);
 
-			return new JSONObject(url).toString();
+			return new JSONObject(urlPojo).toString();
 		});
 	}
 

@@ -4,9 +4,11 @@ import shortener.url.model.Url;
 
 import java.util.Optional;
 
-public interface UrlRepository {
-	void addUrl(Url url);
+public interface UrlRepository<T extends Url> {
+	void addUrl(T urlPojo);
 	int deleteExpired();
-	Optional<Url> find(String signature);
-	Iterable<Url> findAll();
+
+	Optional<T> find(String signature);
+
+	Iterable<T> findAll();
 }

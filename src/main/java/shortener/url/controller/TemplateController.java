@@ -1,24 +1,29 @@
 package shortener.url.controller;
 
-import shortener.url.service.UrlService;
+import shortener.url.model.Url;
+import shortener.url.service.*;
+import shortener.url.service.validator.ValidationException;
 import spark.ModelAndView;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
-import static spark.Spark.get;
-import static spark.Spark.post;
+import static spark.Spark.*;
 
-public class TemplateController {
+public class TemplateController<T extends Url> {
 
-	private final UrlService service;
+	private final UrlService<T> service;
 
-	public TemplateController(UrlService service) {
+	public TemplateController(UrlService<T> service) {
 		this.service = service;
 		index();
 		admin();
 		save();
+		hashRedirect();
+		timePeriodExceptionHandler();
 	}
 
 	public void index() {
@@ -44,20 +49,52 @@ public class TemplateController {
 		post("/save", (request, response) -> {
 			Map<String, Object> model = new HashMap<>();
 
-			String url = request.queryParams("bareUrl");
-			String date = request.queryParams("date");
+			String urlToShorten = request.queryParams("url");
+			var time = Integer.parseInt(request.queryParams("time"));
 
-			System.out.println(date);
-			System.out.println(url);
+			var timePeriod = getTimePeriod(time);
+			var offsetTime = OffsetDateTime.now().plusMinutes(timePeriod);
+			System.out.println(time);
+			System.out.println(urlToShorten);
 
-			model.put("bareUrl", url);
-			model.put("date", date);
+			Optional<T> url = Optional.empty();
+			try {
+				url = Optional.ofNullable(service.createUrl(urlToShorten, offsetTime));
+			} catch (BlankUrlException | IllegalTimestampException | ValidationException e) {
+				response.redirect("/");
+			}
 
-			System.out.println(request.body());
+			url.ifPresent(urlObj -> {
+				service.save(urlObj);
+				model.put("bareUrl", "http://localhost:4567/" + urlObj.getHash());
+				model.put("time", offsetTime);
+			});
 
 			return new ThymeleafTemplateEngine().render(
 					new ModelAndView(model, "save")
 			);
 		});
+	}
+
+	private void hashRedirect() {
+		get("/:hash", (request, response) -> {
+			service.find(request.params(":hash"))
+					.ifPresent(url -> {
+						response.status(302);
+						response.redirect(url.getUrl());
+						halt();
+					});
+			response.redirect("/");
+			return "Redirecting to home page";
+		});
+	}
+
+	private int getTimePeriod(int time) {
+		return TimePeriod.getTimeFromIndex(time).orElseThrow(IllegalTimePeriodIndex::new);
+	}
+
+	private void timePeriodExceptionHandler() {
+		exception(IllegalTimePeriodIndex.class, (exception, request, response) ->
+				response.redirect("/"));
 	}
 }
