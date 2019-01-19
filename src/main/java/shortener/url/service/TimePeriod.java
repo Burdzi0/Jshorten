@@ -1,42 +1,24 @@
 package shortener.url.service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class TimePeriod {
 
-	private static ArrayList<Time> list = new ArrayList<>() {{
-		add(new Time(1, 15));
-		add(new Time(2, 30));
-		add(new Time(3, 60));
-		add(new Time(4, 360));
-		add(new Time(4, 1440));
-		add(new Time(5, 10080));
+	private static Map<Integer, Integer> times = new HashMap<>() {{
+		put(1, 15);
+		put(2, 30);
+		put(3, 60);
+		put(4, 360);
+		put(5, 1440);
+		put(6, 10080);
 	}};
 
 	private TimePeriod() {
 	}
 
-	public static Optional<Integer> getTimeFromIndex(int index) {
-		return Optional.ofNullable(list.get(index)).map(Time::getTimeInMinutes);
-	}
-
-	private static class Time {
-
-		private int index;
-		private int timeInMinutes;
-
-		Time(int index, int timeInMinutes) {
-			this.index = index;
-			this.timeInMinutes = timeInMinutes;
-		}
-
-		public int getIndex() {
-			return index;
-		}
-
-		public int getTimeInMinutes() {
-			return timeInMinutes;
-		}
+	public static int getTimeFromIndex(int index) {
+		return Optional.ofNullable(times.get(index)).orElseThrow(IllegalTimePeriodIndex::new);
 	}
 }

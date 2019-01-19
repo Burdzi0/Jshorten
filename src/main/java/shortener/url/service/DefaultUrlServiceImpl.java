@@ -7,6 +7,7 @@ import shortener.url.service.validator.UrlValidator;
 import shortener.url.service.validator.ValidationException;
 
 import java.time.OffsetDateTime;
+import java.util.Collection;
 import java.util.Optional;
 
 public class DefaultUrlServiceImpl<T extends Url> implements UrlService<T> {
@@ -51,7 +52,7 @@ public class DefaultUrlServiceImpl<T extends Url> implements UrlService<T> {
 	}
 
 	@Override
-	public Iterable<T> findAll() {
+	public Collection<T> findAll() {
 		return repository.findAll();
 	}
 }

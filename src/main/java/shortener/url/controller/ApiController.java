@@ -1,5 +1,6 @@
 package shortener.url.controller;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import shortener.url.model.Url;
 import shortener.url.service.BlankUrlException;
@@ -8,6 +9,7 @@ import shortener.url.service.UrlService;
 import shortener.url.service.validator.ValidationException;
 
 import java.time.OffsetDateTime;
+import java.util.Collection;
 
 import static spark.Spark.*;
 
@@ -21,7 +23,9 @@ public class ApiController<T extends Url> {
 	}
 
 	public void registerAll() {
+		after("/api/*", (request, response) -> response.type("application/json"));
 		path("/api", () -> {
+			admin();
 			hashRedirectGET();
 			saveRedirectPOST();
 		});
@@ -47,6 +51,13 @@ public class ApiController<T extends Url> {
 			service.save(urlPojo);
 
 			return new JSONObject(urlPojo).toString();
+		});
+	}
+
+	private void admin() {
+		get("/admin", (request, response) -> {
+			Collection<T> all = service.findAll();
+			return new JSONArray(all);
 		});
 	}
 

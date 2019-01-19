@@ -4,6 +4,7 @@ import shortener.url.handler.DuplicateHandler;
 import shortener.url.model.Url;
 
 import java.time.OffsetDateTime;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -47,7 +48,7 @@ public class InMemoryUrlRepository<T extends Url> implements UrlRepository<T> {
 	}
 
 	@Override
-	public Iterable<T> findAll() {
+	public Collection<T> findAll() {
 		return remembered.values();
 	}
 }

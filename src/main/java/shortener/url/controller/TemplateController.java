@@ -54,14 +54,20 @@ public class TemplateController<T extends Url> {
 
 			var timePeriod = getTimePeriod(time);
 			var offsetTime = OffsetDateTime.now().plusMinutes(timePeriod);
-			System.out.println(time);
-			System.out.println(urlToShorten);
 
-			Optional<T> url = Optional.empty();
+
+			Optional<T> url;
 			try {
 				url = Optional.ofNullable(service.createUrl(urlToShorten, offsetTime));
-			} catch (BlankUrlException | IllegalTimestampException | ValidationException e) {
-				response.redirect("/");
+			} catch (IllegalTimestampException e) {
+				model.put("message", "Ooops! Something went wrong, contact me please at github.com/Burdzi0");
+				return new ThymeleafTemplateEngine().render(new ModelAndView(model, "index"));
+			} catch (ValidationException e) {
+				model.put("message", "It is not a valid url!");
+				return new ThymeleafTemplateEngine().render(new ModelAndView(model, "index"));
+			} catch (BlankUrlException e) {
+				model.put("message", "Url field can't be empty!");
+				return new ThymeleafTemplateEngine().render(new ModelAndView(model, "index"));
 			}
 
 			url.ifPresent(urlObj -> {
@@ -90,7 +96,7 @@ public class TemplateController<T extends Url> {
 	}
 
 	private int getTimePeriod(int time) {
-		return TimePeriod.getTimeFromIndex(time).orElseThrow(IllegalTimePeriodIndex::new);
+		return TimePeriod.getTimeFromIndex(time);
 	}
 
 	private void timePeriodExceptionHandler() {
