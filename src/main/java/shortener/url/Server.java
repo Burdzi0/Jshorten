@@ -18,8 +18,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static spark.Spark.initExceptionHandler;
-import static spark.Spark.staticFileLocation;
+import static spark.Spark.*;
 
 public class Server {
 
@@ -30,6 +29,8 @@ public class Server {
 			ex.printStackTrace();
 			System.exit(1);
 		});
+
+		port(Integer.parseInt(System.getenv("PORT")));
 
 		staticFileLocation(STATIC_FILES_LOCATION);
 
