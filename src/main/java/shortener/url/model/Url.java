@@ -5,9 +5,9 @@ import java.util.Objects;
 
 public abstract class Url {
 
-	private String url;
-	private OffsetDateTime expirationTime;
-	private String hash;
+	protected String url;
+	protected OffsetDateTime expirationTime;
+	protected String hash;
 
 	public Url(String url, OffsetDateTime expirationTime) {
 		this.url = url;

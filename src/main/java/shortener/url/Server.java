@@ -20,17 +20,18 @@ import java.util.concurrent.TimeUnit;
 
 import static spark.Spark.*;
 
-public class Server {
+class Server {
 
-	public static final String STATIC_FILES_LOCATION = "/public";
+	private static final String STATIC_FILES_LOCATION = "/public";
 
-	public void serve() {
+	void serve() {
 		initExceptionHandler(ex -> {
 			ex.printStackTrace();
 			System.exit(1);
 		});
 
-		port(Integer.parseInt(System.getenv("PORT")));
+		var env = System.getenv("PORT");
+		port(env == null ? 4567 : Integer.parseInt(env));
 
 		staticFileLocation(STATIC_FILES_LOCATION);
 
