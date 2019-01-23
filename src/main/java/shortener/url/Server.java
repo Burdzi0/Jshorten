@@ -13,7 +13,6 @@ import shortener.url.service.factory.DefaultUrlFactory;
 import shortener.url.service.factory.UrlFactory;
 import shortener.url.service.validator.DefaultUrlValidator;
 
-import java.time.OffsetDateTime;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -42,10 +41,8 @@ class Server {
 		TemplateController templateController = new TemplateController<>(service);
 		ApiController apiController = new ApiController<>(service);
 
-		service.save(factory.createUrl("http://www.google.pl", OffsetDateTime.MAX));
-
 		ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-		executorService.schedule(service::deleteExpired, 30, TimeUnit.MINUTES);
+		executorService.scheduleWithFixedDelay(service::deleteExpired, 2, 10, TimeUnit.MINUTES);
 	}
 
 
