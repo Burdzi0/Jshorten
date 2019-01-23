@@ -6,6 +6,7 @@ import shortener.url.service.validator.ValidationException;
 import spark.ModelAndView;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,7 +73,7 @@ public class TemplateController<T extends Url> {
 
 			url.ifPresent(urlObj -> {
 				service.save(urlObj);
-				model.put("bareUrl", "http://localhost:4567/" + urlObj.getHash());
+				model.put("showUrl", createRelativeUrl(request.raw(), urlObj.getHash()));
 				model.put("time", offsetTime);
 			});
 
@@ -80,6 +81,13 @@ public class TemplateController<T extends Url> {
 					new ModelAndView(model, "save")
 			);
 		});
+	}
+
+	public String createRelativeUrl(HttpServletRequest request, String hash) {
+		StringBuffer url = request.getRequestURL();
+		String uri = request.getRequestURI();
+		String host = url.substring(0, url.indexOf(uri));
+		return host + "/" + hash;
 	}
 
 	private void hashRedirect() {
