@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="/js/main.js"></script>
+    <title>Saved link</title>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-md-12">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <a href="/"><img alt="Bootstrap Image Preview" src="/bender.jpg" class="img-fluid center-block"></a>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <h3 class="text-primary text-center mt-2">
+                Your link
+            </h3>
+            <div class="text-center" id="special">
+                <a th:href="@{${bareUrl}}"><p th:text="${bareUrl}"></p></a>
+            </div>
+            <button type="button" class="btn btn-success btn-block btn-md btn-copy"
+                    onclick="copyToClipboard('special')">
+                Copy to Clipboard
+            </button>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Url Shortener by Burdzi0</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>URL shortener</title>
+
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <img alt="Bootstrap Image Preview" src="/bender.jpg" class="img-fluid center-block">
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="alert alert-danger mt-2" role="alert"
+                 th:if="${message != null}" th:text="${message}"></div>
+            <form action="/save" method="post" role="form">
+                <div class="form-row">
+                    <div class="form-group col-md-9">
+                        <label for="url">Your url</label>
+                        <input type="text" class="form-control" id="url" name="url">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="time">Time:</label>
+                        <select name="time" id="time" class="form-control">
+                            <option value="1">15 minutes</option>
+                            <option value="2">30 minutes</option>
+                            <option value="3">1 hour</option>
+                            <option value="4">6 hours</option>
+                            <option value="5">1 day</option>
+                            <option value="6">1 week</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn active btn-block btn-md btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+</div>
+</body>
+</html>
