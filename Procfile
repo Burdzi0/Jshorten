@@ -1,1 +1,1 @@
-web: gradle jar && java -jar build/libs/UrlShortener-1.0-SNAPSHOT.jar
+web: java -jar build/libs/UrlShortener-1.0-SNAPSHOT.jar
