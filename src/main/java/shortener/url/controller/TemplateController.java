@@ -26,7 +26,7 @@ public class TemplateController<T extends Url> {
 		timePeriodExceptionHandler();
 	}
 
-	public void index() {
+	private void index() {
 		get("/", (request, response) -> {
 			Map<String, Object> model = new HashMap<>();
 			return new ThymeleafTemplateEngine().render(
@@ -35,7 +35,7 @@ public class TemplateController<T extends Url> {
 		});
 	}
 
-	public void admin() {
+	private void admin() {
 		get("/admin", (request, response) -> {
 			Map<String, Object> model = new HashMap<>();
 			model.put("all", service.findAll());
@@ -45,7 +45,7 @@ public class TemplateController<T extends Url> {
 		});
 	}
 
-	public void save() {
+	private void save() {
 		post("/save", (request, response) -> {
 			Map<String, Object> model = new HashMap<>();
 

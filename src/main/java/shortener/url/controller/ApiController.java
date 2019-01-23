@@ -26,12 +26,12 @@ public class ApiController<T extends Url> {
 		after("/api/*", (request, response) -> response.type("application/json"));
 		path("/api", () -> {
 			admin();
-			hashRedirectGET();
-			saveRedirectPOST();
+			hashRedirect();
+			save();
 		});
 	}
 
-	private void saveRedirectPOST() {
+	private void save() {
 		post("/add", (request, response) -> {
 			JSONObject object = new JSONObject(request.body());
 			T urlPojo;
@@ -61,7 +61,7 @@ public class ApiController<T extends Url> {
 		});
 	}
 
-	private void hashRedirectGET() {
+	private void hashRedirect() {
 		get("/:hash", (request, response) -> {
 			service.find(request.params(":hash"))
 					.ifPresent(url -> {
