@@ -17,6 +17,13 @@ dependencies {
     compile group: 'org.json', name: 'json', version: '20180813'
     compile group: 'com.sparkjava', name: 'spark-template-thymeleaf', version: '2.7.1'
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+
+    testImplementation(
+            'org.junit.jupiter:junit-jupiter-api:5.1.0'
+    )
+    testRuntimeOnly(
+            'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+    )
 }
 
 jar {
