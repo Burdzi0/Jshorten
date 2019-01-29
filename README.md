@@ -24,7 +24,7 @@ Requirements:
 
 In order to start app simply clone it, enter the directory of cloned project and execute in terminal:
 
-```bash
+```shell
 gradle jar
 java -jar build/libs/UrlShortener-1.0-SNAPSHOT.jar 
 ```

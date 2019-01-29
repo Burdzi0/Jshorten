@@ -28,6 +28,6 @@ public class Sha256ShortingAlgorithm implements ShortingAlgorithm<UrlPojo> {
 			sb.append(String.format("%02x", b));
 		}
 
-		return sb.toString().substring(0,6);
+		return sb.substring(0, 6);
 	}
 }
