@@ -22,7 +22,7 @@ public class ApiController<T extends Url> {
 		registerAll();
 	}
 
-	public void registerAll() {
+	private void registerAll() {
 		after("/api/*", (request, response) -> response.type("application/json"));
 		path("/api", () -> {
 			admin();
@@ -63,16 +63,12 @@ public class ApiController<T extends Url> {
 
 	private void hashRedirect() {
 		get("/:hash", (request, response) -> {
-			service.find(request.params(":hash"))
-					.ifPresent(url -> {
-						response.status(302);
-						response.redirect(url.getUrl());
-					});
-			return errorJsonMessage("The link does not exist");
+			var url = service.find(request.params(":hash"));
+			return url.map(JSONObject::new).orElse(errorJsonMessage("The link does not exist"));
 		});
 	}
 
-	private String errorJsonMessage(String s) {
-		return new JSONObject().put("error", s).toString();
+	private JSONObject errorJsonMessage(String s) {
+		return new JSONObject().put("error", s);
 	}
 }

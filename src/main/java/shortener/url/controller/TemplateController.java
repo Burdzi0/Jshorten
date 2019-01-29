@@ -30,9 +30,7 @@ public class TemplateController<T extends Url> {
 	private void index() {
 		get("/", (request, response) -> {
 			Map<String, Object> model = new HashMap<>();
-			return new ThymeleafTemplateEngine().render(
-					new ModelAndView(model, "index")
-			);
+			return render(model, "index");
 		});
 	}
 
@@ -40,9 +38,7 @@ public class TemplateController<T extends Url> {
 		get("/admin", (request, response) -> {
 			Map<String, Object> model = new HashMap<>();
 			model.put("all", service.findAll());
-			return new ThymeleafTemplateEngine().render(
-					new ModelAndView(model, "admin")
-			);
+			return render(model, "admin");
 		});
 	}
 
@@ -62,13 +58,13 @@ public class TemplateController<T extends Url> {
 				url = Optional.ofNullable(service.createUrl(urlToShorten, offsetTime));
 			} catch (IllegalTimestampException e) {
 				model.put("message", "Ooops! Something went wrong, contact me please at github.com/Burdzi0");
-				return new ThymeleafTemplateEngine().render(new ModelAndView(model, "index"));
+				return render(model, "index");
 			} catch (ValidationException e) {
 				model.put("message", "It is not a valid url!");
-				return new ThymeleafTemplateEngine().render(new ModelAndView(model, "index"));
+				return render(model, "index");
 			} catch (BlankUrlException e) {
 				model.put("message", "Url field can't be empty!");
-				return new ThymeleafTemplateEngine().render(new ModelAndView(model, "index"));
+				return render(model, "index");
 			}
 
 			url.ifPresent(urlObj -> {
@@ -77,13 +73,17 @@ public class TemplateController<T extends Url> {
 				model.put("time", offsetTime);
 			});
 
-			return new ThymeleafTemplateEngine().render(
-					new ModelAndView(model, "save")
-			);
+			return render(model, "save");
 		});
 	}
 
-	public String createRelativeUrl(HttpServletRequest request, String hash) {
+	private Object render(Map<String, Object> model, String save) {
+		return new ThymeleafTemplateEngine().render(
+				new ModelAndView(model, save)
+		);
+	}
+
+	private String createRelativeUrl(HttpServletRequest request, String hash) {
 		StringBuffer url = request.getRequestURL();
 		String uri = request.getRequestURI();
 		String host = url.substring(0, url.indexOf(uri));
@@ -98,8 +98,9 @@ public class TemplateController<T extends Url> {
 						response.redirect(url.getUrl());
 						halt();
 					});
-			response.redirect("/");
-			return "Redirecting to home page";
+			Map<String, Object> model = new HashMap<>();
+			model.put("message", "Link does not exist!");
+			return render(model, "index");
 		});
 	}
 
