@@ -14,11 +14,11 @@ import java.util.Optional;
 
 import static spark.Spark.*;
 
-public class TemplateController<T extends Url> {
+public class TemplateController {
 
-	private final UrlService<T> service;
+	private final UrlService service;
 
-	public TemplateController(UrlService<T> service) {
+	public TemplateController(UrlService service) {
 		this.service = service;
 		index();
 		admin();
@@ -53,7 +53,7 @@ public class TemplateController<T extends Url> {
 			var offsetTime = OffsetDateTime.now().plusMinutes(timePeriod);
 
 
-			Optional<T> url;
+			Optional<Url> url;
 			try {
 				url = Optional.ofNullable(service.createUrl(urlToShorten, offsetTime));
 			} catch (IllegalTimestampException e) {

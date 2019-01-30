@@ -9,18 +9,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class InMemoryUrlRepository<T extends Url> implements UrlRepository<T> {
+public class InMemoryUrlRepository implements UrlRepository {
 
-	private Map<String, T> remembered = new HashMap<>();
-	private DuplicateHandler<T> duplicateHandler;
+	private Map<String, Url> remembered = new HashMap<>();
+	private DuplicateHandler duplicateHandler;
 
-	public InMemoryUrlRepository(DuplicateHandler<T> duplicateHandler) {
+	public InMemoryUrlRepository(DuplicateHandler duplicateHandler) {
 		this.duplicateHandler = duplicateHandler;
 	}
 
-
 	@Override
-	public void addUrl(T urlPojo) {
+	public void addUrl(Url urlPojo) {
 		while (remembered.putIfAbsent(urlPojo.getHash(), urlPojo) == null) {
 			urlPojo = duplicateHandler.duplicate(urlPojo);
 		}
@@ -32,7 +31,7 @@ public class InMemoryUrlRepository<T extends Url> implements UrlRepository<T> {
 
 		var entrySet = remembered.entrySet();
 		OffsetDateTime timestamp;
-		for (Map.Entry<String, T> entry : entrySet) {
+		for (Map.Entry<String, Url> entry : entrySet) {
 			timestamp = entry.getValue().getExpirationTime();
 			if (OffsetDateTime.now().isAfter(timestamp)) {
 				remembered.remove(entry.getKey(), entry.getValue());
@@ -43,12 +42,12 @@ public class InMemoryUrlRepository<T extends Url> implements UrlRepository<T> {
 	}
 
 	@Override
-	public Optional<T> find(String signature) {
+	public Optional<Url> find(String signature) {
 		return Optional.ofNullable(remembered.get(signature));
 	}
 
 	@Override
-	public Collection<T> findAll() {
+	public Collection<Url> findAll() {
 		return remembered.values();
 	}
 }

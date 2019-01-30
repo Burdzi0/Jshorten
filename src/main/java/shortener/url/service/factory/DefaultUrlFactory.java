@@ -1,27 +1,29 @@
 package shortener.url.service.factory;
 
 import shortener.url.algorithm.ShortingAlgorithm;
-import shortener.url.model.UrlPojo;
+import shortener.url.model.Url;
 
 import java.time.OffsetDateTime;
 
-public class DefaultUrlFactory implements UrlFactory<UrlPojo> {
+public class DefaultUrlFactory implements UrlFactory {
 
-	private ShortingAlgorithm<UrlPojo> algorithm;
+	private ShortingAlgorithm algorithm;
+	private UrlCreator creator;
 
-	public DefaultUrlFactory(ShortingAlgorithm<UrlPojo> algorithm) {
+	public DefaultUrlFactory(ShortingAlgorithm algorithm, UrlCreator creator) {
 		this.algorithm = algorithm;
+		this.creator = creator;
 	}
 
 	@Override
-	public UrlPojo createUrl(String url, OffsetDateTime expirationTime) {
-		UrlPojo urlPojoObject = new UrlPojo(url, expirationTime);
+	public Url createUrl(String url, OffsetDateTime expirationTime) {
+		Url urlPojoObject = creator.create(url, expirationTime);
 		urlPojoObject.setHash(shortenUrl(urlPojoObject));
 		return urlPojoObject;
 	}
 
 	@Override
-	public String shortenUrl(UrlPojo urlPojo) {
+	public String shortenUrl(Url urlPojo) {
 		return algorithm.shortenUrl(urlPojo);
 	}
 }

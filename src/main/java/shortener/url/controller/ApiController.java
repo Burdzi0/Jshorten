@@ -13,11 +13,11 @@ import java.util.Collection;
 
 import static spark.Spark.*;
 
-public class ApiController<T extends Url> {
+public class ApiController {
 
-	private final UrlService<T> service;
+	private final UrlService service;
 
-	public ApiController(UrlService<T> service) {
+	public ApiController(UrlService service) {
 		this.service = service;
 		registerAll();
 	}
@@ -34,7 +34,7 @@ public class ApiController<T extends Url> {
 	private void save() {
 		post("/add", (request, response) -> {
 			JSONObject object = new JSONObject(request.body());
-			T urlPojo;
+			Url urlPojo;
 			try {
 				urlPojo = service.createUrl(
 						object.getString("url"),
@@ -56,7 +56,7 @@ public class ApiController<T extends Url> {
 
 	private void admin() {
 		get("/admin", (request, response) -> {
-			Collection<T> all = service.findAll();
+			Collection<Url> all = service.findAll();
 			return new JSONArray(all);
 		});
 	}

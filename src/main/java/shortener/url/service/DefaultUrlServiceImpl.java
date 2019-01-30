@@ -10,20 +10,20 @@ import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
-public class DefaultUrlServiceImpl<T extends Url> implements UrlService<T> {
+public class DefaultUrlServiceImpl implements UrlService {
 
-	private UrlRepository<T> repository;
-	private UrlFactory<T> factory;
+	private UrlRepository repository;
+	private UrlFactory factory;
 	private UrlValidator validator;
 
-	public DefaultUrlServiceImpl(UrlRepository<T> repository, UrlFactory<T> factory, UrlValidator validator) {
+	public DefaultUrlServiceImpl(UrlRepository repository, UrlFactory factory, UrlValidator validator) {
 		this.repository = repository;
 		this.factory = factory;
 		this.validator = validator;
 	}
 
 	@Override
-	public T createUrl(String url, OffsetDateTime expirationTime) throws BlankUrlException, IllegalTimestampException, ValidationException {
+	public Url createUrl(String url, OffsetDateTime expirationTime) throws BlankUrlException, IllegalTimestampException, ValidationException {
 		if (url.isBlank() || url.isEmpty())
 			throw new BlankUrlException();
 
@@ -37,7 +37,7 @@ public class DefaultUrlServiceImpl<T extends Url> implements UrlService<T> {
 	}
 
 	@Override
-	public void save(T urlPojo) {
+	public void save(Url urlPojo) {
 		repository.addUrl(urlPojo);
 	}
 
@@ -47,12 +47,12 @@ public class DefaultUrlServiceImpl<T extends Url> implements UrlService<T> {
 	}
 
 	@Override
-	public Optional<T> find(String signature) {
+	public Optional<Url> find(String signature) {
 		return repository.find(signature);
 	}
 
 	@Override
-	public Collection<T> findAll() {
+	public Collection<Url> findAll() {
 		return repository.findAll();
 	}
 }

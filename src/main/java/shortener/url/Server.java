@@ -4,11 +4,11 @@ import shortener.url.algorithm.Sha256ShortingAlgorithm;
 import shortener.url.controller.ApiController;
 import shortener.url.controller.TemplateController;
 import shortener.url.handler.DefaultDuplicateHandlerImpl;
-import shortener.url.model.UrlPojo;
 import shortener.url.repository.InMemoryUrlRepository;
 import shortener.url.repository.UrlRepository;
 import shortener.url.service.DefaultUrlServiceImpl;
 import shortener.url.service.UrlService;
+import shortener.url.service.factory.DefaultUrlCreator;
 import shortener.url.service.factory.DefaultUrlFactory;
 import shortener.url.service.factory.UrlFactory;
 import shortener.url.service.validator.DefaultUrlValidator;
@@ -34,17 +34,15 @@ class Server {
 
 		staticFileLocation(STATIC_FILES_LOCATION);
 
-		UrlRepository<UrlPojo> urlRepository = new InMemoryUrlRepository<>(new DefaultDuplicateHandlerImpl<>());
-		UrlFactory<UrlPojo> factory = new DefaultUrlFactory(new Sha256ShortingAlgorithm());
-		UrlService<UrlPojo> service = new DefaultUrlServiceImpl<>(urlRepository, factory, new DefaultUrlValidator());
+		UrlRepository repository = new InMemoryUrlRepository(new DefaultDuplicateHandlerImpl());
+		UrlFactory factory = new DefaultUrlFactory(new Sha256ShortingAlgorithm(), new DefaultUrlCreator());
+		UrlService service = new DefaultUrlServiceImpl(repository, factory, new DefaultUrlValidator());
 
-		TemplateController templateController = new TemplateController<>(service);
-		ApiController apiController = new ApiController<>(service);
+		TemplateController templateController = new TemplateController(service);
+		ApiController apiController = new ApiController(service);
 
 		ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 		executorService.scheduleWithFixedDelay(service::deleteExpired, 2, 10, TimeUnit.MINUTES);
 	}
-
-
 
 }

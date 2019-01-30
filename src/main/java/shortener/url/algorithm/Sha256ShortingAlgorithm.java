@@ -1,15 +1,15 @@
 package shortener.url.algorithm;
 
-import shortener.url.model.UrlPojo;
+import shortener.url.model.Url;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Sha256ShortingAlgorithm implements ShortingAlgorithm<UrlPojo> {
+public class Sha256ShortingAlgorithm implements ShortingAlgorithm {
 
 	@Override
-	public String shortenUrl(UrlPojo urlPojo) {
+	public String shortenUrl(Url urlPojo) {
 		if (urlPojo.getHash() != null)
 			throw new IllegalStateException("Hash is not null!");
 		MessageDigest md = null;
@@ -18,6 +18,10 @@ public class Sha256ShortingAlgorithm implements ShortingAlgorithm<UrlPojo> {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
+
+		if (md == null)
+			throw new IllegalStateException("SHA-256 unavailable!");
+
 		md.update(urlPojo.getUrl().getBytes(StandardCharsets.UTF_8));
 		md.update(urlPojo.getExpirationTime().toString().getBytes(StandardCharsets.UTF_8));
 
@@ -30,4 +34,5 @@ public class Sha256ShortingAlgorithm implements ShortingAlgorithm<UrlPojo> {
 
 		return sb.substring(0, 6);
 	}
+
 }
