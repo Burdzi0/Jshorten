@@ -6,10 +6,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Sha256ShortingAlgorithm implements ShortingAlgorithm {
+public class Sha256ShortingAlgorithm<T extends Url> implements ShortingAlgorithm<T> {
 
 	@Override
-	public String shortenUrl(Url urlPojo) {
+	public String shortenUrl(T urlPojo) {
 		if (urlPojo.getHash() != null)
 			throw new IllegalStateException("Hash is not null!");
 		MessageDigest md = null;
@@ -18,9 +18,8 @@ public class Sha256ShortingAlgorithm implements ShortingAlgorithm {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-
 		if (md == null)
-			throw new IllegalStateException("SHA-256 unavailable!");
+			throw new IllegalStateException("SHA-256 not found");
 
 		md.update(urlPojo.getUrl().getBytes(StandardCharsets.UTF_8));
 		md.update(urlPojo.getExpirationTime().toString().getBytes(StandardCharsets.UTF_8));

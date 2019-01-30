@@ -4,8 +4,7 @@ import shortener.url.model.Url;
 
 import java.time.OffsetDateTime;
 
-public interface UrlFactory {
-	Url createUrl(String url, OffsetDateTime expirationTime);
-
-	String shortenUrl(Url urlPojo);
+public interface UrlFactory<T extends Url> {
+	T createUrl(String url, OffsetDateTime expirationTime);
+	String shortenUrl(T urlPojo);
 }
