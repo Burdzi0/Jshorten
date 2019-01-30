@@ -2,10 +2,10 @@ package shortener.url.handler;
 
 import shortener.url.model.Url;
 
-public class DefaultDuplicateHandlerImpl implements DuplicateHandler {
+public class DefaultDuplicateHandlerImpl<T extends Url> implements DuplicateHandler<T> {
 
 	@Override
-	public Url duplicate(Url urlPojo) {
+	public T duplicate(T urlPojo) {
 		var hash = urlPojo.getHash();
 		if (hash.length() > 6) {
 			var genericHash = hash.substring(0,6);

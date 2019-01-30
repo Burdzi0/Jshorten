@@ -11,7 +11,6 @@ import shortener.url.repository.InMemoryUrlRepository;
 import shortener.url.repository.UrlRepository;
 import shortener.url.service.DefaultUrlServiceImpl;
 import shortener.url.service.UrlService;
-import shortener.url.service.factory.DefaultUrlCreator;
 import shortener.url.service.factory.DefaultUrlFactory;
 import shortener.url.service.factory.UrlCreator;
 import shortener.url.service.factory.UrlFactory;

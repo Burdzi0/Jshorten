@@ -7,13 +7,11 @@ import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
-public interface UrlService {
-	Url createUrl(String url, OffsetDateTime expirationTime) throws BlankUrlException, IllegalTimestampException, ValidationException;
-
-	void save(Url urlPojo);
+public interface UrlService<T extends Url> {
+	T createUrl(String url, OffsetDateTime expirationTime) throws BlankUrlException, IllegalTimestampException, ValidationException;
+	void save(T urlPojo);
 	int deleteExpired();
+	Optional<T> find(String signature);
 
-	Optional<Url> find(String signature);
-
-	Collection<Url> findAll();
+	Collection<T> findAll();
 }

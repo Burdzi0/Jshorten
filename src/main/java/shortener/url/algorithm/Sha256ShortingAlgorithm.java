@@ -33,5 +33,4 @@ public class Sha256ShortingAlgorithm<T extends Url> implements ShortingAlgorithm
 
 		return sb.substring(0, 6);
 	}
-
 }

@@ -5,11 +5,10 @@ import shortener.url.model.Url;
 import java.util.Collection;
 import java.util.Optional;
 
-public interface UrlRepository {
-	void addUrl(Url urlPojo);
+public interface UrlRepository<T extends Url> {
+	void addUrl(T urlPojo);
 	int deleteExpired();
+	Optional<T> find(String signature);
 
-	Optional<Url> find(String signature);
-
-	Collection<Url> findAll();
+	Collection<T> findAll();
 }
