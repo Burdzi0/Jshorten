@@ -18,6 +18,7 @@ public class InMemoryUrlRepository implements UrlRepository {
 		this.duplicateHandler = duplicateHandler;
 	}
 
+
 	@Override
 	public void addUrl(Url urlPojo) {
 		while (remembered.putIfAbsent(urlPojo.getHash(), urlPojo) == null) {
