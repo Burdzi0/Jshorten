@@ -5,7 +5,7 @@
 #### Description ###
 
 Jshorten is an url shortener made purely in Java 11.  This project is supposed to be an easily-extendable url shortener to make the job as fast as You need it.
-This project **isn't finished yet**. It needs unit testing. 
+This project **isn't finished yet**. It needs unit testing and refactoring. 
 
 #### Frameworks and libraries ####
 
