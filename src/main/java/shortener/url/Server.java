@@ -35,6 +35,8 @@ class Server<T extends Url> {
 	private UrlValidator validator;
 
 	public Server(UrlCreator<T> creator) {
+		if (creator == null)
+			throw new IllegalArgumentException("Creator is null!");
 		this.creator = creator;
 	}
 

@@ -12,6 +12,7 @@ public class Sha256ShortingAlgorithm<T extends Url> implements ShortingAlgorithm
 	public String shortenUrl(T urlPojo) {
 		if (urlPojo.getHash() != null)
 			throw new IllegalStateException("Hash is not null!");
+
 		MessageDigest md = null;
 		try {
 			md = MessageDigest.getInstance("SHA-256");
