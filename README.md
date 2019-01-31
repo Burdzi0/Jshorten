@@ -37,7 +37,7 @@ In order to create your own version of this project you have to create class whi
 `Server` class uses default implementations or objects passed using methods as `repository(arg), service(arg), ...`.
 | Class | Default implementation  | Arguments |
 |---|---|---|
-| Url  | UrlPojo |  `String` url, `OffsetDateTime` expirationTime  | 
+| Url  | UrlPojo |  `String` url, `OffsetDateTime` expirationTime | 
 | UrlRepository<T>  | InMemoryUrlRepository<T>  | DuplicateHandler<T> |
 | DuplicateHandler<T>  | DefaultDuplicateHandlerImpl<T>  | ---  |
 | UrlFactory<T> | DefaultUrlFactory<T> | ShortingAlgorithm<T> algorithm, UrlCreator<T> creator |
