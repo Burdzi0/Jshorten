@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'distribution'
+    id 'jacoco'
 }
 
 group 'com.burdzi0'
@@ -26,6 +27,10 @@ dependencies {
     )
 }
 
+jacoco {
+    toolVersion = "0.8.2"
+}
+
 jar {
     manifest {
         attributes 'Main-Class': 'shortener.url.Main'
@@ -41,3 +46,14 @@ task stage {
   dependsOn installDist
 }
 
+test {
+    useJUnitPlatform()
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled=true
+        html.enabled=true
+        xml.destination file("${projectDir}/jacoco.xml")
+    }
+}
