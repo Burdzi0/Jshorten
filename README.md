@@ -5,7 +5,7 @@
 #### Description ###
 
 Jshorten is an url shortener made purely in Java 11.  This project is supposed to be an easily-extendable url shortener to make the job as fast as You need it.
-This project **isn't finished yet**. It needs unit testing and refactoring. 
+It needs unit testing.
 
 #### Frameworks and libraries ####
 
@@ -33,6 +33,16 @@ The app is ready to be deployed to Heroku. It uses either environment variable `
 
 #### Customization 
 
-The project is being developed with priority to be fully extendable and customizable. At this moment there customization isn't as easy as planned. 
+In order to create your own version of this project you have to create class which would extend `Url` abstract class. You can use default implementation `UrlPojo`.
+`Server` class uses default implementations or objects passed using methods as `repository(arg), service(arg), ...`.
+| Class | Default implementation  | Arguments |
+|---|---|---|
+| Url  | UrlPojo |  `String` url, `OffsetDateTime` expirationTime  | 
+| UrlRepository<T>  | InMemoryUrlRepository<T>  | DuplicateHandler<T> |
+| DuplicateHandler<T>  | DefaultDuplicateHandlerImpl<T>  | ---  |
+| UrlFactory<T> | DefaultUrlFactory<T> | ShortingAlgorithm<T> algorithm, UrlCreator<T> creator |
+| UrlService<T> | DefaultUrlServiceImpl | UrlRepository<T> repository, UrlFactory<T> factory, UrlValidator validator|
+| UrlValidator | DefaultUrlValidator | --- |
 
-A short note about customization will be added shortly after refactoring.
+
+The default version ([available here](https://jshorten.herokuapp.com/)).
