@@ -1,5 +1,7 @@
 package shortener.url.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import shortener.url.handler.DuplicateHandler;
 import shortener.url.model.Url;
 
@@ -11,6 +13,7 @@ import java.util.Optional;
 
 public class InMemoryUrlRepository<T extends Url> implements UrlRepository<T> {
 
+	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	private Map<String, T> remembered = new HashMap<>();
 	private DuplicateHandler<T> duplicateHandler;
 
@@ -23,21 +26,26 @@ public class InMemoryUrlRepository<T extends Url> implements UrlRepository<T> {
 		while (remembered.putIfAbsent(urlPojo.getHash(), urlPojo) == null) {
 			urlPojo = duplicateHandler.duplicate(urlPojo);
 		}
+		log.info("Added " + urlPojo + " to repository");
 	}
 
 	@Override
 	public int deleteExpired() {
 		var expired = 0;
 
+		log.info("Removing expired links");
 		var entrySet = remembered.entrySet();
 		OffsetDateTime timestamp;
 		for (Map.Entry<String, T> entry : entrySet) {
 			timestamp = entry.getValue().getExpirationTime();
 			if (OffsetDateTime.now().isAfter(timestamp)) {
+				log.info("Removing " + entry.getValue());
 				remembered.remove(entry.getKey(), entry.getValue());
 				expired++;
 			}
 		}
+
+		log.info("Removed links: " + expired);
 		return expired;
 	}
 

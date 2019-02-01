@@ -50,4 +50,13 @@ public abstract class Url {
 		result = 31 * result + (hash != null ? hash.hashCode() : 0);
 		return result;
 	}
+
+	@Override
+	public String toString() {
+		return "Url{" +
+				"url='" + url + '\'' +
+				", expirationTime=" + expirationTime +
+				", hash='" + hash + '\'' +
+				'}';
+	}
 }
