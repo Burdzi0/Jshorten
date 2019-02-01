@@ -69,6 +69,7 @@ public class TemplateController<T extends Url> {
 			try {
 				url = Optional.ofNullable(service.createUrl(urlToShorten, offsetTime));
 			} catch (IllegalTimestampException e) {
+				log.error(e.getMessage(), e);
 				model.put("message", "Ooops! Something went wrong, contact me please at github.com/Burdzi0");
 				return render(model, "index");
 			} catch (ValidationException e) {
@@ -112,6 +113,7 @@ public class TemplateController<T extends Url> {
 
 	private void notFoundRedirect() {
 		notFound((request, response) -> {
+			log.warn("Not found page: " + request.url());
 			Map<String, Object> model = new HashMap<>();
 			model.put("message", "Url does not exist!");
 			return render(model, "index");
@@ -131,6 +133,9 @@ public class TemplateController<T extends Url> {
 
 	private void timePeriodExceptionHandler() {
 		exception(IllegalTimePeriodIndex.class, (exception, request, response) ->
-				response.redirect("/"));
+		{
+			log.error(exception.getMessage(), exception);
+			response.redirect("/");
+		});
 	}
 }
