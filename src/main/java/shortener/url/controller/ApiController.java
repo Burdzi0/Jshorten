@@ -26,6 +26,7 @@ public class ApiController<T extends Url> {
 		after("/api/*", (request, response) -> response.type("application/json"));
 		path("/api", () -> {
 			admin();
+			adminAsFile();
 			hashRedirect();
 			save();
 		});
@@ -58,6 +59,20 @@ public class ApiController<T extends Url> {
 		get("/admin", (request, response) -> {
 			Collection<T> all = service.findAll();
 			return new JSONArray(all);
+		});
+	}
+
+	private void adminAsFile() {
+		get("/admin/file", (request, response) -> {
+			Collection<T> all = service.findAll();
+			response.header("Content-Disposition", "attachment");
+
+			var jsonArrayAsString = new JSONArray(all).toString();
+			var raw = response.raw();
+			raw.getOutputStream().write(jsonArrayAsString.getBytes());
+			raw.getOutputStream().flush();
+			raw.getOutputStream().close();
+			return raw;
 		});
 	}
 

@@ -77,8 +77,9 @@ public class TemplateController<T extends Url> {
 		});
 	}
 
-	private Object render(Map<String, Object> model, String save) {
-		return new ThymeleafTemplateEngine().render(
+	private String render(Map<String, Object> model, String save) {
+		return new ThymeleafTemplateEngine()
+				.render(
 				new ModelAndView(model, save)
 		);
 	}
