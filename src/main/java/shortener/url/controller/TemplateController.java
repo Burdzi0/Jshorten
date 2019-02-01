@@ -25,6 +25,7 @@ public class TemplateController<T extends Url> {
 		save();
 		hashRedirect();
 		timePeriodExceptionHandler();
+		notFoundRedirect();
 	}
 
 	private void index() {
@@ -77,13 +78,6 @@ public class TemplateController<T extends Url> {
 		});
 	}
 
-	private String render(Map<String, Object> model, String save) {
-		return new ThymeleafTemplateEngine()
-				.render(
-				new ModelAndView(model, save)
-		);
-	}
-
 	private String createRelativeUrl(HttpServletRequest request, String hash) {
 		StringBuffer url = request.getRequestURL();
 		String uri = request.getRequestURI();
@@ -103,6 +97,21 @@ public class TemplateController<T extends Url> {
 			model.put("message", "Link does not exist!");
 			return render(model, "index");
 		});
+	}
+
+	private void notFoundRedirect() {
+		notFound((request, response) -> {
+			Map<String, Object> model = new HashMap<>();
+			model.put("message", "Url does not exist!");
+			return render(model, "index");
+		});
+	}
+
+	private String render(Map<String, Object> model, String save) {
+		return new ThymeleafTemplateEngine()
+				.render(
+				new ModelAndView(model, save)
+		);
 	}
 
 	private int getTimePeriod(int time) {
