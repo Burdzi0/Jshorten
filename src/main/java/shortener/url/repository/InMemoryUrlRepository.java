@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import shortener.url.handler.DuplicateHandler;
 import shortener.url.model.Url;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class InMemoryUrlRepository<T extends Url> implements UrlRepository<T> {
 	public int deleteExpired() {
 		var expired = 0;
 
-		log.info("Removing expired links");
+		log.info("Removing expired links [" + LocalDateTime.now() + "]");
 		var entrySet = remembered.entrySet();
 		OffsetDateTime timestamp;
 		for (Map.Entry<String, T> entry : entrySet) {

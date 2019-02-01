@@ -12,6 +12,5 @@ public interface UrlService<T extends Url> {
 	void save(T urlPojo);
 	int deleteExpired();
 	Optional<T> find(String signature);
-
 	Collection<T> findAll();
 }

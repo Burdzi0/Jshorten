@@ -11,8 +11,8 @@ public class DefaultDuplicateHandlerImpl<T extends Url> implements DuplicateHand
 	@Override
 	public T duplicate(T urlPojo) {
 		var hash = urlPojo.getHash();
-		log.info("Resolving duplicate: " + hash);
 		if (hash.length() > 6) {
+			log.info("Resolving duplicate: " + hash);
 			var genericHash = hash.substring(0,6);
 			var number = Integer.parseInt(hash.substring(6));
 			urlPojo.setHash(genericHash + ++number);

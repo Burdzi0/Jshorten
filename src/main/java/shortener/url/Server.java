@@ -1,5 +1,7 @@
 package shortener.url;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import shortener.url.algorithm.Sha256ShortingAlgorithm;
 import shortener.url.algorithm.ShortingAlgorithm;
 import shortener.url.controller.ApiController;
@@ -33,21 +35,26 @@ class Server<T extends Url> {
 	private ShortingAlgorithm<T> algorithm;
 	private DuplicateHandler<T> duplicateHandler;
 	private UrlValidator validator;
+	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
 	public Server(UrlCreator<T> creator) {
+		log.info("Starting server...");
 		if (creator == null)
 			throw new IllegalArgumentException("Creator is null!");
 		this.creator = creator;
 	}
 
 	public void serve() {
+		log.info("Registering initialization exception handler");
 		initExceptionHandler(ex -> {
 			ex.printStackTrace();
 			System.exit(1);
 		});
 
+		log.info("Configuring port");
 		portConfig();
 
+		log.info("Registering static files location at: " + STATIC_FILES_LOCATION);
 		staticFileLocation(STATIC_FILES_LOCATION);
 
 		repository = prepareRepository();
@@ -57,6 +64,7 @@ class Server<T extends Url> {
 		TemplateController<T> templateController = new TemplateController<>(service);
 		ApiController<T> apiController = new ApiController<>(service);
 
+		log.info("Registering removing links scheduled job");
 		deleteScheduledJob();
 	}
 

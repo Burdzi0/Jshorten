@@ -1,5 +1,7 @@
 package shortener.url.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import shortener.url.model.Url;
 import shortener.url.repository.UrlRepository;
 import shortener.url.service.factory.UrlFactory;
@@ -13,6 +15,7 @@ import java.util.Optional;
 
 public class DefaultUrlServiceImpl<T extends Url> implements UrlService<T> {
 
+	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	private UrlRepository<T> repository;
 	private UrlFactory<T> factory;
 	private UrlValidator validator;
@@ -25,6 +28,8 @@ public class DefaultUrlServiceImpl<T extends Url> implements UrlService<T> {
 
 	@Override
 	public T createUrl(String url, OffsetDateTime expirationTime) throws BlankUrlException, IllegalTimestampException, ValidationException {
+		log.info("Creating url: " + url + ", expiration time: " + expirationTime);
+
 		if (url.isBlank() || url.isEmpty())
 			throw new BlankUrlException();
 
