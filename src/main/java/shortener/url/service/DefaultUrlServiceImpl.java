@@ -3,6 +3,7 @@ package shortener.url.service;
 import shortener.url.model.Url;
 import shortener.url.repository.UrlRepository;
 import shortener.url.service.factory.UrlFactory;
+import shortener.url.service.validator.UrlStatus;
 import shortener.url.service.validator.UrlValidator;
 import shortener.url.service.validator.ValidationException;
 
@@ -27,8 +28,14 @@ public class DefaultUrlServiceImpl<T extends Url> implements UrlService<T> {
 		if (url.isBlank() || url.isEmpty())
 			throw new BlankUrlException();
 
-		if (!validator.validate(url))
+		var status = validator.validate(url);
+
+		if (status == UrlStatus.WRONG)
 			throw new ValidationException();
+
+		if (status == UrlStatus.NO_PROTOCOL) {
+			url = "http://" + url;
+		}
 
 		if (expirationTime.isBefore(OffsetDateTime.now()))
 			throw new IllegalTimestampException();
