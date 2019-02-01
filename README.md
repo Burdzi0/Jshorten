@@ -2,6 +2,8 @@
 
 ### Customizable url shortener that can run anywhere ###
 
+[![Build Status](https://travis-ci.org/Burdzi0/Jshorten.svg?branch=master)](https://travis-ci.org/Burdzi0/Jshorten)
+
 #### Description ###
 
 Jshorten is an url shortener made purely in Java 11.  This project is supposed to be an easily-extendable url shortener to make the job as fast as You need it.
