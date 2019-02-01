@@ -1,5 +1,7 @@
 package shortener.url.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import shortener.url.model.Url;
 import shortener.url.service.*;
 import shortener.url.service.validator.ValidationException;
@@ -17,15 +19,24 @@ import static spark.Spark.*;
 public class TemplateController<T extends Url> {
 
 	private final UrlService<T> service;
+	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
 	public TemplateController(UrlService<T> service) {
 		this.service = service;
+		log.info("Registering TemplateController...");
+		log.info("Registering index page");
 		index();
+		log.info("Registering admin page");
 		admin();
+		log.info("Registering save page");
 		save();
+		log.info("Registering redirect utility");
 		hashRedirect();
+		log.info("Registering time period exception handler");
 		timePeriodExceptionHandler();
+		log.info("Registering not found page");
 		notFoundRedirect();
+		log.info("TemplateController registered");
 	}
 
 	private void index() {
