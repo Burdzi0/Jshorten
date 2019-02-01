@@ -1,0 +1,8 @@
+.gradle/
+.idea/
+Image.svg
+build/
+codacy-coverage-reporter-4.0.5-assembly.jar
+codacy-coverage.json
+out/
+
