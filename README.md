@@ -3,6 +3,7 @@
 ### Customizable url shortener that can run anywhere ###
 
 [![Build Status](https://travis-ci.org/Burdzi0/Jshorten.svg?branch=master)](https://travis-ci.org/Burdzi0/Jshorten)
+[![codecov](https://codecov.io/gh/Burdzi0/Jshorten/branch/master/graph/badge.svg)](https://codecov.io/gh/Burdzi0/Jshorten)
 
 #### Description ###
 
