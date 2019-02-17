@@ -60,3 +60,11 @@ jacocoTestReport {
         xml.destination file("${projectDir}/jacoco.xml")
     }
 }
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "Jshorten"
+        property "sonar.projectKey", "jshorten-project-key"
+        property "sonar.sources", "src/main/java"
+    }
+}
