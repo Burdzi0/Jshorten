@@ -9,3 +9,5 @@ deploy:
 env:
   global:
     secure: NN+UboNibF5VXQ95uaCf6NaTHKgiTMpZaNei6mhhJrsklyq+n1rXX0CArEPxbMGvMRIHjnib9rtlOKTTV/ygKCcxGxHAruN9nziYBnT7ikF3rERy55yFOEerFxdrIkdu2GK+fx3SpFNLM5mOuPvisOZ01d6ouPYsCEDPpdS3vYqCT99HYMnqLid1Bm9dgH9QmvxGc/PeIEezMxT8z1HWnNRzXcx0LLpR5x99mDvAkFTBRQNrH9xxsmISTsX81K3NHEFCHt/jQTskK4o7rTqF5iL/RYl9vg6Bzd5cZv77em8Gv2kn5QTr463T3kK3IHlROFWFzVT17OYXcqUZCzCoczGsQYaunQMQCpVOqsx+F6r//FlROzuSC+Hsh0Xzumrp4BAMLzfI8CIDrroq1/OnBpoj9A3eZdW/BIWjTYw+exmv5EZpDX8LhDM7y/TGeZfkqYVm0KVQ2DzH7v2V2G+U3auL+26AtxUZ5C8uRaNP6JNxvs035uGtf4Bmqq7OnYDvj2rq/9UCtm6wp4n13hKhbrrXhUc3WFiaNLzogyMrZvZv8TaQE/LyzCjeUH08M2YTkwYNFynaAtOAbY5IyiYcOsjh6kdf9yz5i929CdUvpQXDg6nNmKZ0N6xEC58mSE/THwNdzWzd+2aYz9xP4DQ9FqADTnDf0nLDwuje0KEeTec=
+after_success:                                                             │
+  - bash <(curl -s https://codecov.io/bash)
