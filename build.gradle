@@ -49,9 +49,11 @@ task stage {
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
 
 jacocoTestReport {
+    shouldRunAfter test
     reports {
         xml.enabled=true
         html.enabled=true

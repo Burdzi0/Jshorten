@@ -16,6 +16,8 @@ public class DefaultDuplicateHandlerImpl<T extends Url> implements DuplicateHand
 			var genericHash = hash.substring(0,6);
 			var number = Integer.parseInt(hash.substring(6));
 			urlPojo.setHash(genericHash + ++number);
+		} else {
+			urlPojo.setHash(hash + "1");
 		}
 		return urlPojo;
 	}
