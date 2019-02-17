@@ -47,7 +47,7 @@ class Server<T extends Url> {
 	public void serve() {
 		log.info("Registering initialization exception handler");
 		initExceptionHandler(ex -> {
-			ex.printStackTrace();
+			log.error("Exception occurred on initialization, exiting", ex);
 			System.exit(1);
 		});
 

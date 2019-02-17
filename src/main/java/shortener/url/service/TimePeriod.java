@@ -1,19 +1,21 @@
 package shortener.url.service;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static java.util.Map.entry;
+import static java.util.Map.ofEntries;
+
 public class TimePeriod {
 
-	private static Map<Integer, Integer> times = new HashMap<>() {{
-		put(1, 15);
-		put(2, 30);
-		put(3, 60);
-		put(4, 360);
-		put(5, 1440);
-		put(6, 10080);
-	}};
+	private static Map<Integer, Integer> times = ofEntries(
+			entry(1, 15),
+			entry(2, 30),
+			entry(3, 60),
+			entry(4, 360),
+			entry(5, 1440),
+			entry(6, 10080)
+	);
 
 	private TimePeriod() {
 	}
