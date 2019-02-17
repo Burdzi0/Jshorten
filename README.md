@@ -3,7 +3,7 @@
 ### Customizable url shortener that can run anywhere ###
 
 [![Build Status](https://travis-ci.org/Burdzi0/Jshorten.svg?branch=master)](https://travis-ci.org/Burdzi0/Jshorten)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Burdzi0_Jshorten&metric=alert_status)](https://sonarcloud.io/dashboard?id=Burdzi0_Jshorten)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=jshorten-project-key&metric=alert_status)](https://sonarcloud.io/dashboard?id=jshorten-project-key)
 [![codecov](https://codecov.io/gh/Burdzi0/Jshorten/branch/master/graph/badge.svg)](https://codecov.io/gh/Burdzi0/Jshorten)
 
 #### Description ###
