@@ -18,6 +18,7 @@ class DefaultUrlFactoryTest {
 	private UrlCreator<UrlPojo> creator = new DefaultUrlCreator();
 	private UrlFactory<UrlPojo> factory = new DefaultUrlFactory<>(algorithm, creator);
 
+
 	@Test
 	void createUrl() {
 		var manufactured = factory.createUrl(WWW_EXAMPLE_COM, EXPIRATION_TIME);

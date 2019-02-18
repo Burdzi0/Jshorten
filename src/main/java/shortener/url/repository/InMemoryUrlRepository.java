@@ -24,29 +24,29 @@ public class InMemoryUrlRepository<T extends Url> implements UrlRepository<T> {
 
 	@Override
 	public void addUrl(T urlPojo) {
-		while (remembered.putIfAbsent(urlPojo.getHash(), urlPojo) == null) {
+		while (remembered.putIfAbsent(urlPojo.getHash(), urlPojo) != null) {
 			urlPojo = duplicateHandler.duplicate(urlPojo);
 		}
-		log.info("Added " + urlPojo + " to repository");
+		log.info("Added {} to repository", urlPojo);
 	}
 
 	@Override
 	public int deleteExpired() {
 		var expired = 0;
 
-		log.info("Removing expired links [" + LocalDateTime.now() + "]");
+		log.info("Removing expired links [{}]", LocalDateTime.now());
 		var entrySet = remembered.entrySet();
 		OffsetDateTime timestamp;
 		for (Map.Entry<String, T> entry : entrySet) {
 			timestamp = entry.getValue().getExpirationTime();
 			if (OffsetDateTime.now().isAfter(timestamp)) {
-				log.info("Removing " + entry.getValue());
+				log.info("Removing {}", entry.getValue());
 				remembered.remove(entry.getKey(), entry.getValue());
 				expired++;
 			}
 		}
 
-		log.info("Removed links: " + expired);
+		log.info("Removed links: {}", expired);
 		return expired;
 	}
 
