@@ -16,7 +16,7 @@ class DefaultUrlFactoryTest {
 
 	private ShortingAlgorithm<UrlPojo> algorithm = new Sha256ShortingAlgorithm<>();
 	private UrlCreator<UrlPojo> creator = new DefaultUrlCreator();
-	private UrlFactory<UrlPojo> factory = new DefaultUrlFactory<>(algorithm, creator);
+	private DefaultUrlFactory<UrlPojo> factory = new DefaultUrlFactory<>(algorithm, creator);
 
 
 	@Test
@@ -35,5 +35,28 @@ class DefaultUrlFactoryTest {
 		UrlPojo created = creator.create(WWW_EXAMPLE_COM, EXPIRATION_TIME);
 
 		assertEquals(algorithm.shortenUrl(created), manufactured.getHash());
+	}
+
+
+	@Test
+	void getAlgorithm() {
+		assertEquals(algorithm, factory.getAlgorithm());
+	}
+
+	@Test
+	void setAlgorithm() {
+		factory.setAlgorithm(algorithm);
+		assertEquals(algorithm, factory.getAlgorithm());
+	}
+
+	@Test
+	void getCreator() {
+		assertEquals(creator, factory.getCreator());
+	}
+
+	@Test
+	void setCreator() {
+		factory.setCreator(creator);
+		assertEquals(creator, factory.getCreator());
 	}
 }

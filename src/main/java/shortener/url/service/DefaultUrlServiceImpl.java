@@ -30,7 +30,7 @@ public class DefaultUrlServiceImpl<T extends Url> implements UrlService<T> {
 	public T createUrl(String url, OffsetDateTime expirationTime) throws BlankUrlException, IllegalTimestampException, ValidationException {
 		log.info("Creating url: " + url + ", expiration time: " + expirationTime);
 
-		if (url.isBlank() || url.isEmpty())
+		if (url == null || url.isBlank() || url.isEmpty())
 			throw new BlankUrlException();
 
 		var status = validator.validate(url);
@@ -42,7 +42,7 @@ public class DefaultUrlServiceImpl<T extends Url> implements UrlService<T> {
 			url = "http://" + url;
 		}
 
-		if (expirationTime.isBefore(OffsetDateTime.now()))
+		if (expirationTime == null || expirationTime.isBefore(OffsetDateTime.now()))
 			throw new IllegalTimestampException();
 
 		return factory.createUrl(url, expirationTime);
