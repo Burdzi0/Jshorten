@@ -43,11 +43,16 @@ class InMemoryUrlRepositoryTest {
 
 	@Test
 	void deleteExpired() {
+		var notToBeDeleted = new UrlPojo("www.example.net", OffsetDateTime.MAX);
+		notToBeDeleted.setHash("123456");
+
+		repository.addUrl(notToBeDeleted);
+
 		var deleted = repository.deleteExpired();
 
 		assertEquals(1, deleted);
 		assertTrue(repository.find(hash).isEmpty());
-		assertEquals(0, repository.findAll().size());
+		assertEquals(1, repository.findAll().size());
 	}
 
 	@Test
