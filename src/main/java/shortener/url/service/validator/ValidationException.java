@@ -1,6 +1,6 @@
 package shortener.url.service.validator;
 
-public class ValidationException extends Throwable {
+public class ValidationException extends Exception {
 
 	public ValidationException() {
 	}

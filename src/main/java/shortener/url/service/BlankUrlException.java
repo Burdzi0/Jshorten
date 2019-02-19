@@ -1,6 +1,6 @@
 package shortener.url.service;
 
-public class BlankUrlException extends Throwable {
+public class BlankUrlException extends Exception {
 
 	public BlankUrlException() {
 		super();

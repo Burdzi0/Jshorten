@@ -16,7 +16,7 @@ class TimePeriodTest {
 		assertEquals(1440, TimePeriod.getTimeFromIndex(5));
 		assertEquals(10080, TimePeriod.getTimeFromIndex(6));
 
-		assertThrows(IllegalTimePeriodIndex.class, () -> TimePeriod.getTimeFromIndex(0));
-		assertThrows(IllegalTimePeriodIndex.class, () -> TimePeriod.getTimeFromIndex(7));
+		assertThrows(IllegalTimePeriodIndexException.class, () -> TimePeriod.getTimeFromIndex(0));
+		assertThrows(IllegalTimePeriodIndexException.class, () -> TimePeriod.getTimeFromIndex(7));
 	}
 }

@@ -21,6 +21,6 @@ public class TimePeriod {
 	}
 
 	public static int getTimeFromIndex(int index) {
-		return Optional.ofNullable(times.get(index)).orElseThrow(IllegalTimePeriodIndex::new);
+		return Optional.ofNullable(times.get(index)).orElseThrow(IllegalTimePeriodIndexException::new);
 	}
 }

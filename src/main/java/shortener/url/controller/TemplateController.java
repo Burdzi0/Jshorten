@@ -132,7 +132,7 @@ public class TemplateController<T extends Url> {
 	}
 
 	private void timePeriodExceptionHandler() {
-		exception(IllegalTimePeriodIndex.class, (exception, request, response) ->
+		exception(IllegalTimePeriodIndexException.class, (exception, request, response) ->
 		{
 			log.error(exception.getMessage(), exception);
 			response.redirect("/");

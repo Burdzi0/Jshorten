@@ -1,6 +1,6 @@
 package shortener.url.service;
 
-public class IllegalTimestampException extends Throwable {
+public class IllegalTimestampException extends Exception {
 	public IllegalTimestampException() {
 	}
 
