@@ -31,19 +31,19 @@ public class DefaultUrlServiceImpl<T extends Url> implements UrlService<T> {
 		log.info("Creating url: " + url + ", expiration time: " + expirationTime);
 
 		if (url == null || url.isBlank() || url.isEmpty())
-			throw new BlankUrlException();
+			throw new BlankUrlException("The url is null, blank or empty");
 
 		var status = validator.validate(url);
 
 		if (status == UrlStatus.WRONG)
-			throw new ValidationException();
+			throw new ValidationException(url + " is not a valid url");
 
 		if (status == UrlStatus.NO_PROTOCOL) {
 			url = "http://" + url;
 		}
 
 		if (expirationTime == null || expirationTime.isBefore(OffsetDateTime.now()))
-			throw new IllegalTimestampException();
+			throw new IllegalTimestampException("ExpirationTime is null or has already passed");
 
 		return factory.createUrl(url, expirationTime);
 	}
