@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Sha256ShortingAlgorithm<T extends Url> implements ShortingAlgorithm<T> {
 
+	public static final String SHA_256 = "SHA-256";
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
 	@Override
@@ -17,25 +18,34 @@ public class Sha256ShortingAlgorithm<T extends Url> implements ShortingAlgorithm
 		if (urlPojo.getHash() != null)
 			throw new IllegalStateException("Hash is not null!");
 
-		MessageDigest md = null;
+		MessageDigest messageDigest = obtainMessageDigest(SHA_256);
+		messageDigest.update(urlPojo.getUrl().getBytes(StandardCharsets.UTF_8));
+		messageDigest.update(urlPojo.getExpirationTime().toString().getBytes(StandardCharsets.UTF_8));
+
+		var hashInBytes = messageDigest.digest();
+
+		String hex = bytesToHex(hashInBytes);
+
+		return hex.substring(0, 6);
+	}
+
+	private MessageDigest obtainMessageDigest(String algorithm) {
+		MessageDigest messageDigest = null;
 		try {
-			md = MessageDigest.getInstance("SHA-256");
+			messageDigest = MessageDigest.getInstance(algorithm);
 		} catch (NoSuchAlgorithmException e) {
 			log.error(e.getMessage(), e);
 		}
-		if (md == null)
-			throw new IllegalStateException("SHA-256 not found");
+		if (messageDigest == null)
+			throw new IllegalStateException(algorithm + " not found");
+		return messageDigest;
+	}
 
-		md.update(urlPojo.getUrl().getBytes(StandardCharsets.UTF_8));
-		md.update(urlPojo.getExpirationTime().toString().getBytes(StandardCharsets.UTF_8));
-
-		var hashInBytes = md.digest();
-		// bytes to hex
+	private String bytesToHex(byte[] hashInBytes) {
 		StringBuilder sb = new StringBuilder();
 		for (byte b : hashInBytes) {
 			sb.append(String.format("%02x", b));
 		}
-
-		return sb.substring(0, 6);
+		return sb.toString();
 	}
 }
