@@ -30,7 +30,7 @@ public class DefaultUrlServiceImpl<T extends Url> implements UrlService<T> {
 	public T createUrl(String url, OffsetDateTime expirationTime) throws BlankUrlException, IllegalTimestampException, ValidationException {
 		log.info("Creating url: " + url + ", expiration time: " + expirationTime);
 
-		if (url == null || url.isBlank() || url.isEmpty())
+		if (url == null || url.isEmpty() || url.isBlank())
 			throw new BlankUrlException("The url is null, blank or empty");
 
 		var status = validator.validate(url);

@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DefaultUrlServiceImplTest {
 
 	public static final String WWW_EXAMPLE_COM = "http://www.example.com";
+	public static final String WWW_EXAMPLE_COM_WITHOUT_PROTOCOL = "www.example.com";
 	public static final OffsetDateTime EXPIRATION_TIME = OffsetDateTime.MAX;
 
 	private UrlFactory<UrlPojo> factory = new DefaultUrlFactory<>(new Sha256ShortingAlgorithm<>(), new DefaultUrlCreator());
@@ -40,9 +41,17 @@ class DefaultUrlServiceImplTest {
 		assertEquals(manufactured, created);
 	}
 
+	@Test
+	void shouldAddDefaultProtocolToUrl() throws BlankUrlException, IllegalTimestampException, ValidationException {
+		UrlPojo created = saveAndGetUrlPojo(EXPIRATION_TIME);
+
+		var manufactured = factory.createUrl(WWW_EXAMPLE_COM, EXPIRATION_TIME);
+
+		assertEquals(manufactured.getUrl(), created.getUrl());
+	}
 
 	@Test
-	void createUrlBlankUrlException() {
+	void shouldThrowBlankUrlExceptionForInvalidUrlString() {
 		assertThrows(BlankUrlException.class, () -> {
 			service.createUrl(null, EXPIRATION_TIME);
 		});
@@ -57,7 +66,7 @@ class DefaultUrlServiceImplTest {
 	}
 
 	@Test
-	void createUrlIllegalTimestampException() {
+	void shouldThrowIllegalTimestampExceptionForOutdatedOrNullExpirationTime() {
 		assertThrows(IllegalTimestampException.class, () -> {
 			service.createUrl(WWW_EXAMPLE_COM, OffsetDateTime.MIN);
 		});
@@ -72,7 +81,7 @@ class DefaultUrlServiceImplTest {
 	}
 
 	@Test
-	void createUrlValidationException() {
+	void shouldThrowValidationExceptionForWrongUrl() {
 		assertThrows(ValidationException.class, () -> {
 			service.createUrl("sadf asd fasd", OffsetDateTime.MIN);
 		});
